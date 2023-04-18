@@ -6,7 +6,7 @@ using namespace std;
 
 class Chauffeur : public Personne{
     public:
-        Chauffeur(string nom, string prenom, string adresse);
+        Chauffeur(string nom, string prenom, string adresse, string email);
         void ajoutTrajet(Trajet trajet);
         void modificationTrajet(Trajet trajet);
         void suppressionTrajet(int idtrajet);
@@ -18,7 +18,7 @@ class Chauffeur : public Personne{
 
 int Chauffeur::nbChauffeur = 0;
 
-Chauffeur::Chauffeur(string nom, string prenom, string adresse) : Personne(nom, prenom, adresse){
+Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email) : Personne(nom, prenom, adresse, email){
     idchauffeur = nbChauffeur++;
 }
 
