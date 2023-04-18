@@ -1,4 +1,6 @@
+#include <fstream>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -18,6 +20,9 @@ class Trajet{
         void setHorairearrivee(time_t horairearrivee);
         void setPoids(double poids);
         void setStatus(int status);
+        static vector<Trajet> readTrajets();
+        static void ajoutTrajet(Trajet trajet);
+        static void sauvegarderTrajets(vector<Trajet> trajets);
     private:
         int idtrajet;
         int idchauffeur;
@@ -27,6 +32,7 @@ class Trajet{
         time_t horairearrivee;
         double poids;
         int status;
+        static fstream fTrajets;
 };
 
 Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status){
@@ -89,4 +95,49 @@ void Trajet::setPoids(double poids){
 
 void Trajet::setStatus(int status){
     this->status = status;
+}
+
+vector<Trajet> Trajet::readTrajets(){
+    vector<Trajet> trajets;
+
+    fTrajets.open("trajets.csv", ios::in);
+
+    while(getline(fUtilisateurs, trajet))
+        trajets.push_back(trajet);
+
+    fTrajets.close();
+
+    return trajets;
+}
+
+void Trajet::ajoutTrajet(Trajet trajet){
+    fTrajets.open("trajets.csv", ios::out | ios::app);
+
+    fTrajets << trajet.getIdTrajet() << "; "
+             << trajet.getVilledepart() << "; "
+             << trajet.getVillearrivee() << "; "
+             << trajet.getHorairedepart() << "; "
+             << trajet.getHorairearrivee() << "; "
+             << trajet.getPoids() << "; "
+             << trajet.getStatus()
+             << "\n";
+
+    fTrajets.close();
+}
+
+void Trajet::sauvegarder(vector<Trajet> trajets){
+    fTrajets.open("trajets.csv", ios::out | ios::trunc);
+    
+    for(int i = 0; i < trajets.size() - 1; i++){
+        fTrajets << trajet[i].getIdTrajet() << "; "
+                 << trajet[i].getVilledepart() << "; "
+                 << trajet[i].getVillearrivee() << "; "
+                 << trajet[i].getHorairedepart() << "; "
+                 << trajet[i].getHorairearrivee() << "; "
+                 << trajet[i].getPoids() << "; "
+                 << trajet[i].getStatus()
+                 << "\n";
+    }
+
+    fTrajets.close();
 }
