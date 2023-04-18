@@ -1,12 +1,12 @@
 #include <iostream>
-#include <vector>
 #include <bits/stdc++.h>
+#include <vector>
 
 using namespace std;
 
 class Chauffeur : public Personne{
     public:
-        Chauffeur(string nom, string prenom, string adresse);
+        Chauffeur(string nom, string prenom, string adresse, string email);
         void ajoutTrajet(Trajet trajet);
         void modificationTrajet(Trajet trajet);
         void suppressionTrajet(int idtrajet);
@@ -14,16 +14,21 @@ class Chauffeur : public Personne{
     private:
         int idchauffeur;
         vector<Trajet> trajets;
+        
 };
 
 int Chauffeur::nbChauffeur = 0;
 
-Chauffeur::Chauffeur(string nom, string prenom, string adresse) : Personne(nom, prenom, adresse){
+Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email) : Personne(nom, prenom, adresse, email){
     idchauffeur = nbChauffeur++;
+
+    trajets = Trajet.readTrajets();
 }
 
 void Chauffeur::ajoutTrajet(Trajet trajet){
     trajets.push_back(trajet);
+
+    Trajet.ajoutTrajet(trajet);
 }
 
 void Chauffeur::modificationTrajet(Trajet trajet){
@@ -35,6 +40,9 @@ void Chauffeur::modificationTrajet(Trajet trajet){
             trajets[i].setHorairearrivee(trajet.getHorairearrivee());
             trajet[i].setPoids(trajet.getPoids());
             trajets[i].setStatus(trajet.getStatus());
+
+            Trajet.sauvegarderTrajets(trajets);
+
             return;
         }
     }
@@ -44,6 +52,9 @@ void Chauffeur::suppressionTrajet(int idtrajet){
     for(int i = 0; i < vec.size() - 1; i++){
         if(trajets[i].getIdTrajet() == idtrajet){
             trajets.erase(i);
+
+            Trajet.sauvegarderTrajets(trajets);
+
             return;
         }
     }
