@@ -1,39 +1,12 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
+#include "Trajet.hpp"
 
 using namespace std;
 
-class Trajet{
-    public:
-        Trajet(int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status);
-        int getIdTrajet();
-        string getVilledepart();
-        string getVillearrivee();
-        time_t getHorairedepart();
-        time_t getHorairearrivee();
-        double getPoids();
-        int getStatus();
-        void setVilledepart(string villedepart);
-        void setVillearrivee(string villearrivee);
-        void setHorairedepart(time_t horairedepart);
-        void setHorairearrivee(time_t horairearrivee);
-        void setPoids(double poids);
-        void setStatus(int status);
-        static vector<Trajet> readTrajets();
-        static void ajoutTrajet(Trajet trajet);
-        static void sauvegarderTrajets(vector<Trajet> trajets);
-    private:
-        int idtrajet;
-        int idchauffeur;
-        string villedepart;
-        string villearrivee;
-        time_t horairedepart;
-        time_t horairearrivee;
-        double poids;
-        int status;
-        static fstream fTrajets;
-};
+//TODO : str to time_t
 
 Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status){
     this->idchauffeur = idchauffeur;
@@ -45,8 +18,23 @@ Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, time_t 
     this->status = status;
 }
 
+Trajet::Trajet(int idtrajet, int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status){
+    this->idtrajet = idtrajet;
+    this->idchauffeur = idchauffeur;
+    this->villedepart = villedepart;
+    this->villearrivee = villearrivee;
+    this->horairedepart = horairedepart;
+    this->horairearrivee = horairearrivee;
+    this->poids = poids;
+    this->status = status;
+}
+
 int Trajet::getIdTrajet(){
     return idtrajet;
+}
+
+int Trajet::getIdChauffeur(){
+    return idchauffeur;
 }
 
 string Trajet::getVilledepart(){
@@ -70,7 +58,7 @@ double Trajet::getPoids(){
 }
 
 int Trajet::getStatus(){
-    returns status;
+    return status;
 }
 
 void Trajet::setVilledepart(string villedepart){
@@ -102,9 +90,23 @@ vector<Trajet> Trajet::readTrajets(){
 
     fTrajets.open("trajets.csv", ios::in);
 
-    while(getline(fUtilisateurs, trajet))
-        trajets.push_back(trajet);
+    string trajetTmp;
 
+    while(getline(fTrajets, trajetTmp)){
+        stringstream TrajetTmpStream(trajetTmp);
+  
+        vector<string> trajetValues;
+
+        string value;
+
+        while (getline(TrajetTmpStream, value, ';'))
+            trajetValues.push_back(value);
+
+        Trajet trajetNew(stoi(trajetValues[0]), stoi(trajetValues[1]), trajetValues[2], trajetValues[3], trajetValues[4], trajetValues[5], stod(trajetValues[6]), stoi(trajetValues[7]));
+
+        trajets.push_back(trajetNew);
+    }
+        
     fTrajets.close();
 
     return trajets;
@@ -113,29 +115,31 @@ vector<Trajet> Trajet::readTrajets(){
 void Trajet::ajoutTrajet(Trajet trajet){
     fTrajets.open("trajets.csv", ios::out | ios::app);
 
-    fTrajets << trajet.getIdTrajet() << "; "
-             << trajet.getVilledepart() << "; "
-             << trajet.getVillearrivee() << "; "
-             << trajet.getHorairedepart() << "; "
-             << trajet.getHorairearrivee() << "; "
-             << trajet.getPoids() << "; "
+    fTrajets << trajet.getIdTrajet() << ";"
+             << trajet.getIdChauffeur() << ";"
+             << trajet.getVilledepart() << ";"
+             << trajet.getVillearrivee() << ";"
+             << trajet.getHorairedepart() << ";"
+             << trajet.getHorairearrivee() << ";"
+             << trajet.getPoids() << ";"
              << trajet.getStatus()
              << "\n";
 
     fTrajets.close();
 }
 
-void Trajet::sauvegarder(vector<Trajet> trajets){
+void Trajet::sauvegarderTrajets(vector<Trajet> trajets){
     fTrajets.open("trajets.csv", ios::out | ios::trunc);
     
     for(int i = 0; i < trajets.size() - 1; i++){
-        fTrajets << trajet[i].getIdTrajet() << "; "
-                 << trajet[i].getVilledepart() << "; "
-                 << trajet[i].getVillearrivee() << "; "
-                 << trajet[i].getHorairedepart() << "; "
-                 << trajet[i].getHorairearrivee() << "; "
-                 << trajet[i].getPoids() << "; "
-                 << trajet[i].getStatus()
+        fTrajets << trajets[i].getIdTrajet() << ";"
+                 << trajets[i].getIdChauffeur() << ";"
+                 << trajets[i].getVilledepart() << ";"
+                 << trajets[i].getVillearrivee() << ";"
+                 << trajets[i].getHorairedepart() << ";"
+                 << trajets[i].getHorairearrivee() << ";"
+                 << trajets[i].getPoids() << "; "
+                 << trajets[i].getStatus()
                  << "\n";
     }
 
