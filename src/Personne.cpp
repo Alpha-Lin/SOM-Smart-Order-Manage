@@ -1,34 +1,12 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
+#include "Personne.hpp"
 
 using namespace std;
 
-class Personne{
-    public:
-        Personne(string nom, string prenom, string adresse, string email);
-        string getNom();
-        string getPrenom();
-        string getAdresse();
-        string getEmail();
-        void setNom(string nom);
-        void setPrenom(string prenom);
-        void setAdresse(string adresse);
-        void setEmail(string email);
-        void setMotDePasse(string motDePasse);
-        static vector<Personne> readPersonnes();
-        static void ajoutPersonne(Personne personne);
-        static void sauvegarderPersonnes(vector<Personne> personnes);
-    private:
-        string nom;
-        string prenom;
-        string adresse;
-        string email;
-        string motDePasse;
-        static fstream fPersonnes;
-};
-
-Personne(string nom, string prenom, string adresse, string email, string motDePasse){
+Personne::Personne(string nom, string prenom, string adresse, string email, string motDePasse){
     this->nom = nom;
     this->prenom = prenom;
     this->adresse = adresse;
@@ -77,42 +55,56 @@ void Personne::setMotDePasse(string motDePasse){
 }
 
 vector<Personne> Personne::readPersonnes(){
-    vector<Trajet> personnes;
+    vector<Personne> personnes;
 
-    fUtilisateurs.open("utilisateurs.csv", ios::in);
+    fPersonnes.open("utilisateurs.csv", ios::in);
+    
+    string personneTmp;
 
-    while(getline(fUtilisateurs, personne))
-        personnes.push_back(personne);
+    while(getline(fPersonnes, personneTmp)){
+        stringstream personneTmpStream(personneTmp);
 
-    fUtilisateurs.close();
+        vector<string> personneValues;
+
+        string value;
+
+        while (getline(personneTmpStream, value, ';'))
+            personneValues.push_back(value);
+
+        Personne personneNew(personneValues[0], personneValues[1], personneValues[2], personneValues[3], personneValues[4]);
+
+        personnes.push_back(personneNew);
+    }
+
+    fPersonnes.close();
 
     return personnes;
 }
 
-void ajoutPersonne(Personne personne){
-    fTrajets.open("utilisateurs.csv", ios::out | ios::app);
+void Personne::ajoutPersonne(Personne personne){
+    fPersonnes.open("utilisateurs.csv", ios::out | ios::app);
 
-    fTrajets << personne.getNom() << "; "
-             << personne.getPrenom() << "; "
-             << personne.getAdresse() << "; "
-             << personne.getEmail() << "; "
-             << personne.getMotDePasse()
-             << "\n";
+    fPersonnes << personne.getNom() << ";"
+               << personne.getPrenom() << ";"
+               << personne.getAdresse() << ";"
+               << personne.getEmail() << ";"
+               << personne.getMotDePasse()
+               << "\n";
 
-    fTrajets.close();
+    fPersonnes.close();
 }
 
-void sauvegarderPersonnes(vector<Personne> personnes){
-    fTrajets.open("utilisateurs.csv", ios::out | ios::app);
+void Personne::sauvegarderPersonnes(vector<Personne> personnes){
+    fPersonnes.open("utilisateurs.csv", ios::out | ios::app);
 
     for(int i = 0; i < personnes.size() - 1; i++){
-        fTrajets << personne.getNom() << "; "
-                 << personne.getPrenom() << "; "
-                 << personne.getAdresse() << "; "
-                 << personne.getEmail() << "; "
-                 << personne.getMotDePasse()
-                 << "\n";
+        fPersonnes << personnes[i].getNom() << ";"
+                   << personnes[i].getPrenom() << ";"
+                   << personnes[i].getAdresse() << ";"
+                   << personnes[i].getEmail() << ";"
+                   << personnes[i].getMotDePasse()
+                   << "\n";
     }
 
-    fTrajets.close();
+    fPersonnes.close();
 }
