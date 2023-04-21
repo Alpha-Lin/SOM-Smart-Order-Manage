@@ -6,9 +6,11 @@
 
 using namespace std;
 
-//TODO : str to time_t
+int Trajet::nbTrajets = 0;
 
-Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status){
+// Lors de la création
+Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, string horairedepart, string horairearrivee, double poids, int status){
+    this->idtrajet = nbTrajets++;
     this->idchauffeur = idchauffeur;
     this->villedepart = villedepart;
     this->villearrivee = villearrivee;
@@ -18,7 +20,8 @@ Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, time_t 
     this->status = status;
 }
 
-Trajet::Trajet(int idtrajet, int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status){
+// Lors de la lecture
+Trajet::Trajet(int idtrajet, int idchauffeur, string villedepart, string villearrivee, string horairedepart, string horairearrivee, double poids, int status){
     this->idtrajet = idtrajet;
     this->idchauffeur = idchauffeur;
     this->villedepart = villedepart;
@@ -27,6 +30,8 @@ Trajet::Trajet(int idtrajet, int idchauffeur, string villedepart, string villear
     this->horairearrivee = horairearrivee;
     this->poids = poids;
     this->status = status;
+
+    colis = Colis::readColisByTrajet(this);
 }
 
 int Trajet::getIdTrajet(){
@@ -45,11 +50,11 @@ string Trajet::getVillearrivee(){
     return villearrivee;
 }
 
-time_t Trajet::getHorairedepart(){
+string Trajet::getHorairedepart(){
     return horairedepart;
 }
 
-time_t Trajet::getHorairearrivee(){
+string Trajet::getHorairearrivee(){
     return horairearrivee;
 }
 
@@ -69,11 +74,11 @@ void Trajet::setVillearrivee(string villearrivee){
     this->villearrivee = villearrivee;
 }
 
-void Trajet::setHorairedepart(time_t horairedepart){
+void Trajet::setHorairedepart(string horairedepart){
     this->horairedepart = horairedepart;
 }
 
-void Trajet::setHorairearrivee(time_t horairearrivee){
+void Trajet::setHorairearrivee(string horairearrivee){
     this->horairearrivee = horairearrivee;
 }
 

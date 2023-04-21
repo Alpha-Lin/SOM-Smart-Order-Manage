@@ -11,18 +11,12 @@ class Chauffeur : public Personne{
         void ajoutTrajet(Trajet trajet);
         void modificationTrajet(Trajet trajet);
         void suppressionTrajet(int idtrajet);
-        static int nbChauffeur;
     private:
-        int idchauffeur;
         vector<Trajet> trajets;
         
 };
 
-int Chauffeur::nbChauffeur = 0;
-
-Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email, string motDePasse) : Personne(nom, prenom, adresse, email, motDePasse){
-    idchauffeur = nbChauffeur++;
-
+Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email, string motDePasse) : Personne(CHAUFFEUR, nom, prenom, adresse, email, motDePasse){
     trajets = Trajet::readTrajets();
 }
 
