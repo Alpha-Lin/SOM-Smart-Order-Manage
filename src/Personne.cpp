@@ -6,7 +6,23 @@
 
 using namespace std;
 
-Personne::Personne(string nom, string prenom, string adresse, string email, string motDePasse){
+int Personne::nbUsers = 0;
+
+// Lors de la création
+Personne::Personne(int role, string nom, string prenom, string adresse, string email, string motDePasse){
+    this->idUser = nbUsers++;
+    this->role = role;
+    this->nom = nom;
+    this->prenom = prenom;
+    this->adresse = adresse;
+    this->email = email;
+    this->motDePasse = motDePasse;
+}
+
+// Lors de la lecture
+Personne::Personne(int idUser, int role, string nom, string prenom, string adresse, string email, string motDePasse){
+    this->idUser = idUser;
+    this->role = role;
     this->nom = nom;
     this->prenom = prenom;
     this->adresse = adresse;
@@ -71,7 +87,7 @@ vector<Personne> Personne::readPersonnes(){
         while (getline(personneTmpStream, value, ';'))
             personneValues.push_back(value);
 
-        Personne personneNew(personneValues[0], personneValues[1], personneValues[2], personneValues[3], personneValues[4]);
+        Personne personneNew(stoi(personneValues[0]), stoi(personneValues[1]), personneValues[2], personneValues[3], personneValues[4], personneValues[5], personneValues[6]);
 
         personnes.push_back(personneNew);
     }

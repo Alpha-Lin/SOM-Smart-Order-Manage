@@ -5,41 +5,42 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "Colis.hpp"
 
 using namespace std;
 
-//TODO : str to time_t
-
 class Trajet{
     public:
-        Trajet(int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status);
-        Trajet(int idtrajet, int idchauffeur, string villedepart, string villearrivee, time_t horairedepart, time_t horairearrivee, double poids, int status);
+        Trajet(int idchauffeur, string villedepart, string villearrivee, string horairedepart, string horairearrivee, double poids, int status);
+        Trajet(int idtrajet, int idchauffeur, string villedepart, string villearrivee, string horairedepart, string horairearrivee, double poids, int status);
         int getIdTrajet();
         int getIdChauffeur();
         string getVilledepart();
         string getVillearrivee();
-        time_t getHorairedepart();
-        time_t getHorairearrivee();
+        string getHorairedepart();
+        string getHorairearrivee();
         double getPoids();
         int getStatus();
         void setVilledepart(string villedepart);
         void setVillearrivee(string villearrivee);
-        void setHorairedepart(time_t horairedepart);
-        void setHorairearrivee(time_t horairearrivee);
+        void setHorairedepart(string horairedepart);
+        void setHorairearrivee(string horairearrivee);
         void setPoids(double poids);
         void setStatus(int status);
         static vector<Trajet> readTrajets();
         static void ajoutTrajet(Trajet trajet);
         static void sauvegarderTrajets(vector<Trajet> trajets);
+        static int nbTrajets;
     private:
         int idtrajet;
         int idchauffeur;
         string villedepart;
         string villearrivee;
-        time_t horairedepart;
-        time_t horairearrivee;
+        string horairedepart;
+        string horairearrivee;
         double poids;
         int status;
+        vector<Colis> colis;
         static fstream fTrajets;
 };
 
