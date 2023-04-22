@@ -24,17 +24,20 @@ private:
     int status;
     int idTrajet;
     fstream fColis;
+    int poids;
 
 public:
     Colis(string ville, string date, int status);
     Colis(int id, string ville, string date, int status, int idTrajet);
     void setIdcol(int id);
     int getIdCol();
-    void setvilleArr(int id);
+    void setPoids(float p);
+    int getPoids();
+    void setvilleArr(string ville);
     string getvilleArr();
     void setAjoutColis(int id);
     int getAjoutColis();
-    void setstatus(int id);
+    void setstatus(string s);
     void setTrajet(Trajet trajet);
     string getstatus();
     Trajet getIdTrajet();
