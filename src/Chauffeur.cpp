@@ -1,5 +1,3 @@
-#include <iostream>
-#include <vector>
 #include "Personne.hpp"
 #include "Trajet.hpp"
 
@@ -17,7 +15,7 @@ class Chauffeur : public Personne{
 };
 
 Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email, string motDePasse) : Personne(CHAUFFEUR, nom, prenom, adresse, email, motDePasse){
-    trajets = Trajet::readTrajets();
+    trajets = Trajet::readTrajetsByChauffeur(getId());
 }
 
 void Chauffeur::ajoutTrajet(Trajet trajet){

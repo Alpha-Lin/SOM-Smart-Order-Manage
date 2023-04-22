@@ -1,7 +1,3 @@
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
 #include "Personne.hpp"
 
 using namespace std;
@@ -28,6 +24,14 @@ Personne::Personne(int idUser, int role, string nom, string prenom, string adres
     this->adresse = adresse;
     this->email = email;
     this->motDePasse = motDePasse;
+}
+
+int Personne::getId(){
+    return idUser;
+}
+
+int Personne::getRole(){
+    return role;
 }
 
 string Personne::getNom(){
@@ -100,7 +104,9 @@ vector<Personne> Personne::readPersonnes(){
 void Personne::ajoutPersonne(Personne personne){
     fPersonnes.open("utilisateurs.csv", ios::out | ios::app);
 
-    fPersonnes << personne.getNom() << ";"
+    fPersonnes << personne.getId() << ";"
+               << personne.getRole() << ";"
+               << personne.getNom() << ";"
                << personne.getPrenom() << ";"
                << personne.getAdresse() << ";"
                << personne.getEmail() << ";"
@@ -123,4 +129,31 @@ void Personne::sauvegarderPersonnes(vector<Personne> personnes){
     }
 
     fPersonnes.close();
+}
+
+Personne* Personne::connexion(string email, string motDePasse){
+    fPersonnes.open("utilisateurs.csv", ios::in);
+
+    string personneTmp;
+
+    while(getline(fPersonnes, personneTmp)){
+        stringstream personneTmpStream(personneTmp);
+
+        vector<string> personneValues;
+
+        string value;
+
+        while (getline(personneTmpStream, value, ';'))
+            personneValues.push_back(value);
+
+        if(personneValues[5] == email && personneValues[6] == motDePasse){
+            fPersonnes.close();
+
+            return new Personne(stoi(personneValues[0]), stoi(personneValues[1]), personneValues[2], personneValues[3], personneValues[4], personneValues[5], personneValues[6]);
+        }
+    }
+
+    fPersonnes.close();
+
+    return NULL;
 }

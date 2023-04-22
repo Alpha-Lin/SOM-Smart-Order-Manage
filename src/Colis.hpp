@@ -11,9 +11,10 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "Trajet.hpp"
 
 using namespace std;
+
+class Trajet;
 
 class Colis{
 private:

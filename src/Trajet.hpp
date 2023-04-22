@@ -5,9 +5,10 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "Colis.hpp"
 
 using namespace std;
+
+class Colis;
 
 class Trajet{
     public:
@@ -27,7 +28,7 @@ class Trajet{
         void setHorairearrivee(string horairearrivee);
         void setPoids(double poids);
         void setStatus(int status);
-        static vector<Trajet> readTrajets();
+        static vector<Trajet> readTrajetsByChauffeur(int idChauffeur);
         static void ajoutTrajet(Trajet trajet);
         static void sauvegarderTrajets(vector<Trajet> trajets);
         static int nbTrajets;

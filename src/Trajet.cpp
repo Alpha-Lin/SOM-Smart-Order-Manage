@@ -1,7 +1,3 @@
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
 #include "Trajet.hpp"
 
 using namespace std;
@@ -90,7 +86,7 @@ void Trajet::setStatus(int status){
     this->status = status;
 }
 
-vector<Trajet> Trajet::readTrajets(){
+vector<Trajet> Trajet::readTrajetsByChauffeur(int idChauffeur){
     vector<Trajet> trajets;
 
     fTrajets.open("trajets.csv", ios::in);
@@ -107,9 +103,11 @@ vector<Trajet> Trajet::readTrajets(){
         while (getline(TrajetTmpStream, value, ';'))
             trajetValues.push_back(value);
 
-        Trajet trajetNew(stoi(trajetValues[0]), stoi(trajetValues[1]), trajetValues[2], trajetValues[3], trajetValues[4], trajetValues[5], stod(trajetValues[6]), stoi(trajetValues[7]));
+        if(stoi(trajetValues[1]) == idChauffeur){
+            Trajet trajetNew(stoi(trajetValues[0]), stoi(trajetValues[1]), trajetValues[2], trajetValues[3], trajetValues[4], trajetValues[5], stod(trajetValues[6]), stoi(trajetValues[7]));
 
-        trajets.push_back(trajetNew);
+            trajets.push_back(trajetNew);
+        }
     }
         
     fTrajets.close();
