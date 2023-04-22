@@ -1,7 +1,3 @@
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
 #include "Colis.hpp"
 #include "Personne.hpp"
 
