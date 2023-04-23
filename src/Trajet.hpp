@@ -5,10 +5,15 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "Colis.hpp"
 
 using namespace std;
 
-class Colis;
+#define CREE 0
+#define SOLLICITE 1
+#define ACCEPTE 2
+#define EN_COURS 3
+#define COMPLETE 4
 
 class Trajet{
     public:
@@ -28,8 +33,10 @@ class Trajet{
         void setHorairearrivee(string horairearrivee);
         void setPoids(double poids);
         void setStatus(int status);
-        void setCapaciteRestante(double capacite);
-        double getCapaciteRestante();
+        void ajoutColis(Colis c);
+        double poidsActuel();
+        int getNbColis();
+        static vector<Trajet> readTrajets();
         static vector<Trajet> readTrajetsByChauffeur(int idChauffeur);
         static void ajoutTrajet(Trajet trajet);
         static void sauvegarderTrajets(vector<Trajet> trajets);
@@ -42,7 +49,6 @@ class Trajet{
         string horairedepart;
         string horairearrivee;
         double poids;
-        double CapaciteRestante;
         int status;
         vector<Colis> colis;
         static fstream fTrajets;

@@ -23,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     ../Colis.hpp \
+    ../Dispatcher.hpp \
     ../Personne.hpp \
     ../Trajet.hpp \
     adminwindow.h \
