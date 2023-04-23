@@ -1,7 +1,5 @@
 #include "Personne.hpp"
 
-using namespace std;
-
 int Personne::nbUsers = 0;
 
 // Lors de la création

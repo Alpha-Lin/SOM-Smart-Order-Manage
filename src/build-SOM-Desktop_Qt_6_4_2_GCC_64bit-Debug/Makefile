@@ -226,6 +226,7 @@ DIST          = /home/alpha_lin/Qt/6.4.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/mkspecs/features/lex.prf \
 		../SOM/SOM.pro ../Colis.hpp \
+		../Dispatcher.hpp \
 		../Personne.hpp \
 		../Trajet.hpp \
 		../SOM/adminwindow.h \
@@ -565,7 +566,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/alpha_lin/Qt/6.4.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Colis.hpp ../Personne.hpp ../Trajet.hpp ../SOM/adminwindow.h ../SOM/chauffeurwindow.h ../SOM/dispatchwindow.h ../SOM/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Colis.hpp ../Dispatcher.hpp ../Personne.hpp ../Trajet.hpp ../SOM/adminwindow.h ../SOM/chauffeurwindow.h ../SOM/dispatchwindow.h ../SOM/mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Admin.cpp ../Chauffeur.cpp ../Colis.cpp ../Dispatcher.cpp ../Personne.cpp ../Trajet.cpp ../SOM/adminwindow.cpp ../SOM/chauffeurwindow.cpp ../SOM/dispatchwindow.cpp ../SOM/main.cpp ../SOM/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../SOM/adminwindow.ui ../SOM/chauffeurwindow.ui ../SOM/dispatchwindow.ui ../SOM/mainwindow.ui $(DISTDIR)/
 
@@ -1200,24 +1201,30 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-Admin.o: ../Admin.cpp 
+Admin.o: ../Admin.cpp ../Personne.hpp \
+		../Trajet.hpp \
+		../Colis.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Admin.o ../Admin.cpp
 
 Chauffeur.o: ../Chauffeur.cpp ../Personne.hpp \
-		../Trajet.hpp
+		../Trajet.hpp \
+		../Colis.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Chauffeur.o ../Chauffeur.cpp
 
 Colis.o: ../Colis.cpp ../Colis.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Colis.o ../Colis.cpp
 
-Dispatcher.o: ../Dispatcher.cpp ../Colis.hpp \
-		../Personne.hpp
+Dispatcher.o: ../Dispatcher.cpp ../Dispatcher.hpp \
+		../Personne.hpp \
+		../Trajet.hpp \
+		../Colis.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Dispatcher.o ../Dispatcher.cpp
 
 Personne.o: ../Personne.cpp ../Personne.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Personne.o ../Personne.cpp
 
-Trajet.o: ../Trajet.cpp ../Trajet.hpp
+Trajet.o: ../Trajet.cpp ../Trajet.hpp \
+		../Colis.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Trajet.o ../Trajet.cpp
 
 adminwindow.o: ../SOM/adminwindow.cpp ../SOM/adminwindow.h \
@@ -1357,7 +1364,35 @@ adminwindow.o: ../SOM/adminwindow.cpp ../SOM/adminwindow.h \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QSizeF \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/QTransform \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qnativeinterface.h \
-		ui_adminwindow.h
+		ui_adminwindow.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QVariant \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QAbstractButton \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QApplication \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qjnitypes.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qmutex.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthread.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qexception.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qpromise.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qlocale.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QDialogButtonBox \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o adminwindow.o ../SOM/adminwindow.cpp
 
 chauffeurwindow.o: ../SOM/chauffeurwindow.cpp ../SOM/chauffeurwindow.h \
@@ -1497,7 +1532,51 @@ chauffeurwindow.o: ../SOM/chauffeurwindow.cpp ../SOM/chauffeurwindow.h \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QSizeF \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/QTransform \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qnativeinterface.h \
-		ui_chauffeurwindow.h
+		ui_chauffeurwindow.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QVariant \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QApplication \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qjnitypes.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qmutex.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthread.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qexception.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qpromise.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qlocale.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QHeaderView \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qvalidator.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qslider.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qstyle.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QTableView \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qtableview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chauffeurwindow.o ../SOM/chauffeurwindow.cpp
 
 dispatchwindow.o: ../SOM/dispatchwindow.cpp ../SOM/dispatchwindow.h \
@@ -1637,7 +1716,35 @@ dispatchwindow.o: ../SOM/dispatchwindow.cpp ../SOM/dispatchwindow.h \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QSizeF \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/QTransform \
 		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qnativeinterface.h \
-		ui_dispatchwindow.h
+		ui_dispatchwindow.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/QVariant \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QAbstractButton \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QApplication \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qjnitypes.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qmutex.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qthread.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qexception.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qpromise.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtCore/qlocale.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/QDialogButtonBox \
+		/home/alpha_lin/Qt/6.4.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dispatchwindow.o ../SOM/dispatchwindow.cpp
 
 main.o: ../SOM/main.cpp ../SOM/mainwindow.h \

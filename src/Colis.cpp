@@ -1,23 +1,23 @@
 #include "Colis.hpp"
 
-using namespace std;
-
-// Lecture d'un Colis
-Colis::Colis(int id, string ville, string date, int status, int idTrajet) {
-    this->idcolis = id;
-    this->villearrivee = ville;
-    this->dateAjoutColis = date;
-    this->status = status;
-    this->idTrajet = idTrajet;
-}
+int Colis::nbColis = 0;
 
 // Création d'un Colis
-Colis::Colis(string ville, string date, int status) {
+Colis::Colis(string ville, string date, int status){
     this->idcolis = nbColis++;
     this->villearrivee = ville;
     this->dateAjoutColis = date;
     this->status = status;
     this->idTrajet = -1;
+}
+
+// Lecture d'un Colis
+Colis::Colis(int id, string ville, string date, int status, int idTrajet){
+    this->idcolis = id;
+    this->villearrivee = ville;
+    this->dateAjoutColis = date;
+    this->status = status;
+    this->idTrajet = idTrajet;
 }
 
 void Colis::setIdcol(int id) {
@@ -40,23 +40,23 @@ void Colis::setAjoutColis(int id) {
     dateAjoutColis = id;
 }
 
-void Colis::setTrajet(Trajet trajet){
-    this->trajet = trajet;
+void Colis::setIdTrajet(int idTrajet){
+    this->idTrajet = idTrajet;
 }
 
-int Colis::getAjoutColis() {
+string Colis::getAjoutColis() {
     return dateAjoutColis;
 }
 
-void Colis::setstatus(string s) {
+void Colis::setstatus(int s) {
     status = s;
 }
 
-string Colis::getstatus() {
+int Colis::getstatus() {
     return status;
 }
 
-Trajet Colis::getIdTrajet() {
+int Colis::getIdTrajet() {
     return idTrajet;
 }
 
@@ -91,44 +91,30 @@ vector<Colis> Colis::readColis(){
     return colis;
 }
 
-vector<Colis> Colis::readColisByTrajet(Trajet trajet){
-    vector<Colis> colis;
-
-    fColis.open("colis.csv", ios::in);
-
-    string colisTmp;
-
-    while(getline(fColis, colisTmp)){
-        stringstream ColisTmpStream(colisTmp);
-  
-        vector<string> colisValues;
-
-        string value;
-
-        while (getline(ColisTmpStream, value, ';'))
-            colisValues.push_back(value);
-
-        if(stoi(colisValues[4]) == trajet.getIdTrajet()){
-            Colis ColisNew(stoi(colisValues[0]), colisValues[1], colisValues[2], stoi(colisValues[3]), trajet);
-
-            colis.push_back(ColisNew);
-        }
-    }
-        
-    fColis.close();
-
-    return colis;
-}
-
-void Dispatcher::ajoutColis(Colis colis) {
+void Colis::ajoutColis(Colis colis) {
     fColis.open("colis.csv", ios::out | ios::app);
 
     fColis << colis.getIdCol() << ";"
            << colis.getvilleArr() << ";"
            << colis.getAjoutColis() << ";"
            << colis.getstatus() << ";"
-           << colis.getTrajet().getIdTrajet()
+           << colis.getIdTrajet()
            << "\n";
+
+    fColis.close();
+}
+
+void Colis::sauvegarderColis(vector<Colis> colis){
+    fColis.open("trajets.csv", ios::out | ios::trunc);
+
+    for(int i = 0; i < colis.size() - 1; i++){
+        fColis   << colis[i].getIdCol() << ";"
+                 << colis[i].getvilleArr() << ";"
+                 << colis[i].getAjoutColis() << ";"
+                 << colis[i].getstatus() << ";"
+                 << colis[i].getIdTrajet()
+                 << "\n";
+    }
 
     fColis.close();
 }

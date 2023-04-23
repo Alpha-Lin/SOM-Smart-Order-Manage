@@ -1,8 +1,6 @@
 #include "Personne.hpp"
 #include "Trajet.hpp"
 
-using namespace std;
-
 class Chauffeur : public Personne{
     public:
         Chauffeur(string nom, string prenom, string adresse, string email, string motDePasse);
@@ -10,8 +8,7 @@ class Chauffeur : public Personne{
         void modificationTrajet(Trajet trajet);
         void suppressionTrajet(int idtrajet);
     private:
-        vector<Trajet> trajets;
-        
+        vector<Trajet> trajets;    
 };
 
 Chauffeur::Chauffeur(string nom, string prenom, string adresse, string email, string motDePasse) : Personne(CHAUFFEUR, nom, prenom, adresse, email, motDePasse){

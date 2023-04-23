@@ -1,7 +1,5 @@
 #include "Trajet.hpp"
 
-using namespace std;
-
 int Trajet::nbTrajets = 0;
 
 // Lors de la création
@@ -13,7 +11,6 @@ Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, string 
     this->horairedepart = horairedepart;
     this->horairearrivee = horairearrivee;
     this->poids = poids;
-    this->CapaciteRestante = poids;
     this->status = status;
 }
 
@@ -28,7 +25,7 @@ Trajet::Trajet(int idtrajet, int idchauffeur, string villedepart, string villear
     this->poids = poids;
     this->status = status;
 
-    colis = Colis::readColisByTrajet(this);
+    colis = Colis::readColisByTrajet(*this);
 }
 
 int Trajet::getIdTrajet(){
@@ -62,9 +59,6 @@ double Trajet::getPoids(){
 int Trajet::getStatus(){
     return status;
 }
-double Trajet::getCapaciteRestante(){
-    return CapaciteRestante;
-}
 
 void Trajet::setVilledepart(string villedepart){
     this->villedepart = villedepart;
@@ -89,8 +83,51 @@ void Trajet::setPoids(double poids){
 void Trajet::setStatus(int status){
     this->status = status;
 }
-void Trajet::setCapaciteRestante(double capacite){
-    this->CapaciteRestante = capacite;
+
+void Trajet::ajoutColis(Colis c){
+    colis.push_back(c);
+
+    c.setIdTrajet(idtrajet);
+}
+
+double Trajet::poidsActuel(){
+    double poidsTotal = 0;
+
+    for(Colis c : colis)
+        poidsTotal += c.getPoids();
+
+    return poidsTotal;
+}
+
+int Trajet::getNbColis(){
+    return colis.size();
+}
+
+vector<Trajet> Trajet::readTrajets(){
+    vector<Trajet> trajets;
+
+    fTrajets.open("trajets.csv", ios::in);
+
+    string trajetTmp;
+
+    while(getline(fTrajets, trajetTmp)){
+        stringstream TrajetTmpStream(trajetTmp);
+
+        vector<string> trajetValues;
+
+        string value;
+
+        while (getline(TrajetTmpStream, value, ';'))
+            trajetValues.push_back(value);
+
+        Trajet trajetNew(stoi(trajetValues[0]), stoi(trajetValues[1]), trajetValues[2], trajetValues[3], trajetValues[4], trajetValues[5], stod(trajetValues[6]), stoi(trajetValues[7]));
+
+        trajets.push_back(trajetNew);
+    }
+
+    fTrajets.close();
+
+    return trajets;
 }
 
 vector<Trajet> Trajet::readTrajetsByChauffeur(int idChauffeur){
