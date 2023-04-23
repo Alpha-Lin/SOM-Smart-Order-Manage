@@ -13,6 +13,7 @@ Trajet::Trajet(int idchauffeur, string villedepart, string villearrivee, string 
     this->horairedepart = horairedepart;
     this->horairearrivee = horairearrivee;
     this->poids = poids;
+    this->CapaciteRestante = poids;
     this->status = status;
 }
 
@@ -61,6 +62,9 @@ double Trajet::getPoids(){
 int Trajet::getStatus(){
     return status;
 }
+double Trajet::getCapaciteRestante(){
+    return CapaciteRestante;
+}
 
 void Trajet::setVilledepart(string villedepart){
     this->villedepart = villedepart;
@@ -84,6 +88,9 @@ void Trajet::setPoids(double poids){
 
 void Trajet::setStatus(int status){
     this->status = status;
+}
+void Trajet::setCapaciteRestante(double capacite){
+    this->CapaciteRestante = capacite;
 }
 
 vector<Trajet> Trajet::readTrajetsByChauffeur(int idChauffeur){

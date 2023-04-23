@@ -28,6 +28,8 @@ class Trajet{
         void setHorairearrivee(string horairearrivee);
         void setPoids(double poids);
         void setStatus(int status);
+        void setCapaciteRestante(double capacite);
+        double getCapaciteRestante();
         static vector<Trajet> readTrajetsByChauffeur(int idChauffeur);
         static void ajoutTrajet(Trajet trajet);
         static void sauvegarderTrajets(vector<Trajet> trajets);
@@ -40,6 +42,7 @@ class Trajet{
         string horairedepart;
         string horairearrivee;
         double poids;
+        double CapaciteRestante;
         int status;
         vector<Colis> colis;
         static fstream fTrajets;
